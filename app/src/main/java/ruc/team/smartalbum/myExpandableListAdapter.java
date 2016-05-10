@@ -83,7 +83,7 @@ public class myExpandableListAdapter implements ExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupHolder groupHolder = null;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.expendlist_group, null);
@@ -102,11 +102,11 @@ public class myExpandableListAdapter implements ExpandableListAdapter {
         groupHolder.enter.setOnClickListener(new OnClickListenerWithParam(getGroup(groupPosition).toString()){
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(context,Album.class);
+                Intent intent =new Intent(context,AlbumActivity.class);
 
                 Bundle bundle=new Bundle();
 
-                bundle.putString("name", this.getmParam().toString());
+                bundle.putInt("id", groupPosition);
                 intent.putExtras(bundle);
 
                 context.startActivity(intent);

@@ -2,6 +2,7 @@ package ruc.team.smartalbum;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,11 +41,12 @@ public class ScrollingActivity extends AppCompatActivity {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent =new Intent(context, Album.class);
+                Intent intent =new Intent(context, AlbumActivity.class);
 
                 Bundle bundle=new Bundle();
 
-                bundle.putString("name", "group position : " + groupPosition + ", child position : " + childPosition);
+                int mid = TempData.getId(groupPosition, childPosition);
+                bundle.putInt("id", mid);
                 intent.putExtras(bundle);
 
                 context.startActivity(intent);
@@ -55,34 +57,7 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     private void initData(myExpandableListAdapter adapter) {
-        int[] logos = new int[]{
-                R.drawable.gallary,
-                R.drawable.scene,
-                R.drawable.people,
-                R.drawable.object,
-                R.drawable.learning
-        };
-
-        int[][] itemlogos = new int[][]{
-                {},
-                {R.drawable.mont, R.drawable.water},
-                {R.drawable.alone, R.drawable.groupofalone},
-                {R.drawable.object},
-                {}
-        };
-
-        String[] armTypes = new String[]{
-                "所有图片", "风景", "人物", "物品", "学习"
-        };
-        String[][] arms = new String[][]{
-                {},
-                {"山", "水"},
-                {"alone", "a group of alone"},
-                {"物品"},
-                {}
-        };
-
-        adapter.init(logos, itemlogos, armTypes, arms);
+        adapter.init(TempData.logos, TempData.itemlogos, TempData.armTypes, TempData.arms);
     }
 
     @Override
