@@ -100,16 +100,16 @@ public class SmartAlbumAdapter extends BaseAdapter {
             OneHolder holder = null;
 
             if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.album_many, null);
+                convertView = LayoutInflater.from(context).inflate(R.layout.album_one, null);
                 holder = new OneHolder();
 
-                holder.gridView = (GridView) convertView.findViewById(R.id.album_many_gridview);
+                holder.gridView = (GridView) convertView.findViewById(R.id.album_one_gridview);
 
                 convertView.setTag(holder);
             } else
                 holder = (OneHolder) convertView.getTag();
 
-            ManyGridViewAdapter adapter = new ManyGridViewAdapter(context, imageLoader, options);
+            OneGridViewAdapter adapter = new OneGridViewAdapter(context, imageLoader, options);
             adapter.initData(showList.get(position));
             holder.gridView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true, false));
             holder.gridView.setAdapter(adapter);

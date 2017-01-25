@@ -70,7 +70,9 @@ public class TempData {
             case 0:
                 List<String> path1 = new ArrayList<>();
                 path1.add(scene_draw[0][0]);
+                path1.add(scene_draw[0][0]);
                 path1.add(scene_draw[0][1]);
+                path1.add(scene_draw[0][0]);
                 Show show1 = new Show();
                 show1.setPaths(path1);
 

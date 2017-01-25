@@ -1,19 +1,27 @@
 package ruc.team.smartalbum;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Binder;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 
 public class ScrollingActivity extends AppCompatActivity {
+
+    private SharedPreferences preferences;
+    private ServiceConnection serviceConnection = null;
+    static final String TAG = "SmartAlbum";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +43,17 @@ public class ScrollingActivity extends AppCompatActivity {
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.menu);
         myExpandableListAdapter adapter = new myExpandableListAdapter(expandableListView.getContext());
 
+        initialSystem();
+
         initData(adapter);
 
         expandableListView.setAdapter(adapter);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent =new Intent(context, AlbumActivity.class);
+                Intent intent = new Intent(context, AlbumActivity.class);
 
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
 
                 int mid = TempData.getId(groupPosition, childPosition);
                 bundle.putInt("id", mid);
@@ -53,6 +63,38 @@ public class ScrollingActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+    }
+
+    private void initialSystem() {
+        preferences = getSharedPreferences("smart_album", Context.MODE_PRIVATE);
+        if (preferences.getBoolean("IsFirstStart", true)) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isFirstStart", false);
+            editor.commit();
+
+            //other operations, start page or the preparation for image processor
+        }
+
+        //check database
+
+        //start service
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                Log.d(TAG, "service connected");
+                ImageProcess imageProcess = ((ImageProcess.ImageProcessBinder) service).getService();
+                imageProcess.fortest();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                Log.d(TAG, "service disconnected");
+            }
+        };
+
+        Intent service = new Intent(this.getApplicationContext(), ImageProcess.class);
+        this.bindService(service, this.serviceConnection, Context.BIND_AUTO_CREATE);
 
     }
 
@@ -79,5 +121,14 @@ public class ScrollingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (this.serviceConnection != null) {
+            this.unbindService(this.serviceConnection);
+            this.serviceConnection = null;
+        }
     }
 }
