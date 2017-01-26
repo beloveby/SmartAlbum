@@ -30,6 +30,7 @@ public class AlbumActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +87,7 @@ public class AlbumActivity extends AppCompatActivity
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight+ (listView.getDividerHeight() * (smartAlbumAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * (smartAlbumAdapter.getCount() - 1));
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
@@ -108,6 +109,7 @@ public class AlbumActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.album, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -157,12 +159,11 @@ public class AlbumActivity extends AppCompatActivity
                 List<Show> shows = null;
                 List<Label> labels = null;
 
-                if (fatherNode.isHasChild()){
+                if (fatherNode.isHasChild()) {
                     showMode = SmartAlbumAdapter.ShowMode.MANY;
                     shows = TempData.manyShow(fatherNode.getId());
                     labels = TempData.manyLabel(fatherNode.getId());
-                }
-                else{
+                } else {
                     showMode = SmartAlbumAdapter.ShowMode.ONE;
                     shows = TempData.oneShow(fatherNode.getId());
                 }
