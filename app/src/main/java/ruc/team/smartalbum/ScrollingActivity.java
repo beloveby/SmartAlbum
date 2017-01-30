@@ -36,7 +36,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                
+
                 FloatingActionButton time = (FloatingActionButton) findViewById(R.id.btn_group_time);
                 FloatingActionButton label = (FloatingActionButton) findViewById(R.id.btn_group_label);
                 FloatingActionButton file = (FloatingActionButton) findViewById(R.id.btn_group_file);
@@ -48,6 +48,18 @@ public class ScrollingActivity extends AppCompatActivity {
                     ButtonGroupAnimUtil.showMenu(time, label, file);
                     buttonGroupOpen = true;
                 }
+            }
+        });
+
+        FloatingActionButton time = (FloatingActionButton) findViewById(R.id.btn_group_time);
+        FloatingActionButton file = (FloatingActionButton) findViewById(R.id.btn_group_file);
+        FloatingActionButton label = (FloatingActionButton) findViewById(R.id.btn_group_label);
+
+        time.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
