@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -42,10 +43,13 @@ public class SmartAlbumAdapter extends BaseAdapter {
     private List<Label> labelList;
     private List<Show> showList;
 
-    public SmartAlbumAdapter(Context context, TextView fatherNode) {
+    private manyOnClickListener onClickListener;
+
+    public SmartAlbumAdapter(final Context context, TextView fatherNode) {
         this.context = context;
         fatherNodeView = fatherNode;
         itemCount = 0;
+        onClickListener = new manyOnClickListener(context);
     }
 
     public void setData(OrganizeMode mode1, ShowMode mode2, Label fatherNode, int count, List<Show> shows, List<Label> labels) {
@@ -123,6 +127,8 @@ public class SmartAlbumAdapter extends BaseAdapter {
                 holder = new ManyHolder();
 
                 holder.textView = (TextView) convertView.findViewById(R.id.album_tabs);
+                holder.textView.setTag(position);
+                onClickListener.setFatherNode(fatherNode);
                 holder.gridView = (GridView) convertView.findViewById(R.id.album_many_gridview);
 
                 convertView.setTag(holder);
@@ -136,6 +142,8 @@ public class SmartAlbumAdapter extends BaseAdapter {
             adapter.initData(showList.get(position));
             holder.gridView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true, false));
             holder.gridView.setAdapter(adapter);
+
+            holder.textView.setOnClickListener(onClickListener);
 
             return convertView;
         } else
