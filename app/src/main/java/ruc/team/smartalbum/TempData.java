@@ -59,6 +59,20 @@ public class TempData {
             return 1;
     }
 
+    public static int getChildId(int fatherId, int n) {
+        if (fatherId == 0) {
+            return n + 1;
+        } else if (fatherId < 5 && fatherId > 0) {
+            int sum = 5;
+            for (int i = 0; i < fatherId; i++) {
+                sum += arms[i].length;
+            }
+            return sum + n;
+        } else {
+            return -1;
+        }
+    }
+
     public static List<Show> manyShow(int id) {
         List<Show> shows = new ArrayList<>();
         List<String> path5 = new ArrayList<>();
@@ -175,8 +189,21 @@ public class TempData {
     public static List<Show> oneShow(int id) {
         List<Show> shows = new ArrayList<>();
         List<String> path1 = new ArrayList<>();
-        path1.add(scene_draw[0][0]);
-        path1.add(scene_draw[0][1]);
+
+        for (int i = 0; i < 20; i++) {
+            path1.add(scene_draw[0][0]);
+            path1.add(scene_draw[0][1]);
+            path1.add(scene_draw[1][0]);
+            path1.add(scene_draw[1][1]);
+            path1.add(people_draw[0][0]);
+            path1.add(people_draw[0][1]);
+            path1.add(people_draw[1][0]);
+            path1.add(people_draw[1][1]);
+            path1.add(object_draw[0][0]);
+            path1.add(object_draw[0][1]);
+            path1.add(learn_draw[0][0]);
+            path1.add(learn_draw[0][1]);
+        }
         Show show1 = new Show();
         show1.setPaths(path1);
         shows.add(show1);

@@ -1,7 +1,6 @@
 package ruc.team.smartalbum;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -38,6 +36,7 @@ public class SmartAlbumAdapter extends BaseAdapter {
     private OrganizeMode mode1;
     private ShowMode mode2;
     private Label fatherNode;
+    private boolean isShowModeChanged;
 
     private int itemCount;
     private List<Label> labelList;
@@ -50,10 +49,21 @@ public class SmartAlbumAdapter extends BaseAdapter {
         fatherNodeView = fatherNode;
         itemCount = 0;
         onClickListener = new manyOnClickListener(context);
+        isShowModeChanged = false;
+    }
+
+    public void setData(OrganizeMode mode1, Label fatherNode) {
+        this.mode1 = mode1;
+        this.fatherNode = fatherNode;
+
+        this.updateData();
     }
 
     public void setData(OrganizeMode mode1, ShowMode mode2, Label fatherNode, int count, List<Show> shows, List<Label> labels) {
         this.mode1 = mode1;
+        if (!mode2.equals(this.mode2)) {
+            this.isShowModeChanged = true;
+        }
         this.mode2 = mode2;
         this.fatherNode = fatherNode;
 
@@ -100,10 +110,10 @@ public class SmartAlbumAdapter extends BaseAdapter {
 
         if (itemCount == 0)
             return null;
-        else if (itemCount == 1) {
+        else if (this.mode2.equals(ShowMode.ONE)) {
             OneHolder holder = null;
 
-            if (convertView == null) {
+            if (convertView == null | this.isShowModeChanged) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.album_one, null);
                 holder = new OneHolder();
 
@@ -119,10 +129,10 @@ public class SmartAlbumAdapter extends BaseAdapter {
             holder.gridView.setAdapter(adapter);
 
             return convertView;
-        } else if (itemCount > 1) {
+        } else if (this.mode2.equals(ShowMode.MANY)) {
             ManyHolder holder = null;
 
-            if (convertView == null) {
+            if (convertView == null | this.isShowModeChanged) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.album_many, null);
                 holder = new ManyHolder();
 
@@ -143,11 +153,35 @@ public class SmartAlbumAdapter extends BaseAdapter {
             holder.gridView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true, false));
             holder.gridView.setAdapter(adapter);
 
+            onClickListener.setSmartAlbumAdapter(this);
             holder.textView.setOnClickListener(onClickListener);
 
             return convertView;
         } else
             return null;
+    }
+
+    private void updateData() { // supposed to access data in database
+        SmartAlbumAdapter.ShowMode showMode;
+
+        if (fatherNode.isHasChild()) {
+            showMode = SmartAlbumAdapter.ShowMode.MANY;
+            if (!showMode.equals(this.mode2)) {
+                this.isShowModeChanged = true;
+            }
+            this.mode2 = showMode;
+            this.showList = TempData.manyShow(fatherNode.getId());
+            this.labelList = TempData.manyLabel(fatherNode.getId());
+        } else {
+            showMode = SmartAlbumAdapter.ShowMode.ONE;
+            if (!showMode.equals(this.mode2)) {
+                this.isShowModeChanged = true;
+            }
+            this.mode2 = showMode;
+            this.showList = TempData.oneShow(fatherNode.getId());
+        }
+        this.itemCount = TempData.getCount(fatherNode.getId());
+        this.fatherNodeView.setText(this.fatherNode.getName());
     }
 
     private class ManyHolder {

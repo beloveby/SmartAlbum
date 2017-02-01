@@ -153,25 +153,7 @@ public class AlbumActivity extends AppCompatActivity
 
         switch (organizeMode) {
             case LABEL:
-                //先手动填充数据，等数据库写完后改
-                SmartAlbumAdapter.ShowMode showMode;
-                int count = -1;
-                List<Show> shows = null;
-                List<Label> labels = null;
-
-                if (fatherNode.isHasChild()) {
-                    showMode = SmartAlbumAdapter.ShowMode.MANY;
-                    shows = TempData.manyShow(fatherNode.getId());
-                    labels = TempData.manyLabel(fatherNode.getId());
-                } else {
-                    showMode = SmartAlbumAdapter.ShowMode.ONE;
-                    shows = TempData.oneShow(fatherNode.getId());
-                }
-                count = TempData.getCount(fatherNode.getId());
-
-                adapter.setData(SmartAlbumAdapter.OrganizeMode.LABEL, showMode, fatherNode, count, shows, labels);
-
-                textView.setText(fatherNode.getName());
+                adapter.setData(SmartAlbumAdapter.OrganizeMode.LABEL, fatherNode);
                 break;
             case FILE:
                 break;
