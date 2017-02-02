@@ -12,15 +12,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, manyOnClickListener.CallBack {
+
+    private boolean isInitPage;
+    private List<AlbumActivityNode> historyLog;
+    private ListView listView;
+    private TextView textView;
+    private SmartAlbumAdapter smartAlbumAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,46 +57,29 @@ public class AlbumActivity extends AppCompatActivity
         Bundle bundle = this.getIntent().getExtras();
         int id = bundle.getInt("id");
 
-        TextView textView = (TextView) findViewById(R.id.classname);
+        this.textView = (TextView) findViewById(R.id.classname);
 
-        ListView listView = (ListView) findViewById(R.id.smart_album);
-        SmartAlbumAdapter smartAlbumAdapter = new SmartAlbumAdapter(this, textView);
+        this.listView = (ListView) findViewById(R.id.smart_album);
+        this.smartAlbumAdapter = new SmartAlbumAdapter(this, textView, this);
 
-        listView.setAdapter(smartAlbumAdapter);
+        this.listView.setAdapter(smartAlbumAdapter);
 
-        Label label = new Label();
+        AlbumActivityNode label = new AlbumActivityNode();
+        label.setOrganizeMode(SmartAlbumAdapter.OrganizeMode.LABEL);
         label.setId(id);
-        label.setFahterNode(TempData.setFatherNode(id));
+        label.setFatherNode(TempData.setFatherNode(id));
         label.setHasChild(TempData.setHasChild(id));
         label.setName(TempData.setName(id));
 
-        changeShow(listView, smartAlbumAdapter, textView, SmartAlbumAdapter.OrganizeMode.LABEL, label);
+        changeShow(label);
 
         Toast.makeText(this, id + "", Toast.LENGTH_SHORT).show();
-    }
 
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        // 获取ListView对应的Adapter
-        SmartAlbumAdapter smartAlbumAdapter = (SmartAlbumAdapter) listView.getAdapter();
-        if (smartAlbumAdapter == null) {
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0, len = smartAlbumAdapter.getCount(); i < len; i++) {
-            // listAdapter.getCount()返回数据项的数目
-            View listItem = smartAlbumAdapter.getView(i, null, listView);
-            // 计算子项View 的宽高
-            listItem.measure(0, 0);
-            // 统计所有子项的总高度
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (smartAlbumAdapter.getCount() - 1));
-        // listView.getDividerHeight()获取子项间分隔符占用的高度
-        // params.height最后得到整个ListView完整显示需要的高度
-        listView.setLayoutParams(params);
+        this.isInitPage = true;
+        this.historyLog = new ArrayList<AlbumActivityNode>();
+        AlbumActivityNode historyPiece = new AlbumActivityNode();
+        historyPiece.copy(label);
+        this.historyLog.add(historyPiece);
     }
 
     @Override
@@ -98,6 +87,18 @@ public class AlbumActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (!this.isInitPage) {
+            int size = this.historyLog.size();
+            AlbumActivityNode node = this.historyLog.remove(size - 1);
+
+            AlbumActivityNode historyPiece = new AlbumActivityNode();
+            historyPiece.copy(this.historyLog.get(size - 2));
+
+            this.smartAlbumAdapter.setData(historyPiece);
+            if (size == 2) {
+                this.isInitPage = true;
+            }
+            this.smartAlbumAdapter.notifyDataSetChanged();
         } else {
             super.onBackPressed();
         }
@@ -149,19 +150,16 @@ public class AlbumActivity extends AppCompatActivity
         return true;
     }
 
-    public void changeShow(ListView listView, SmartAlbumAdapter adapter, TextView textView, SmartAlbumAdapter.OrganizeMode organizeMode, Label fatherNode) {
+    public void changeShow(AlbumActivityNode fatherNode) {
+        this.smartAlbumAdapter.setData(fatherNode);
+        this.smartAlbumAdapter.notifyDataSetChanged();
+    }
 
-        switch (organizeMode) {
-            case LABEL:
-                adapter.setData(SmartAlbumAdapter.OrganizeMode.LABEL, fatherNode);
-                break;
-            case FILE:
-                break;
-            case TIME:
-                break;
-        }
-
-        adapter.notifyDataSetChanged();
-        setListViewHeightBasedOnChildren(listView);
+    @Override
+    public void trace(AlbumActivityNode albumActivityNode){
+        AlbumActivityNode historyPiece = new AlbumActivityNode();
+        historyPiece.copy(albumActivityNode);
+        this.historyLog.add(historyPiece);
+        this.isInitPage = false;
     }
 }

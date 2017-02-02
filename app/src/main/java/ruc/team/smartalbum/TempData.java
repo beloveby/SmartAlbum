@@ -156,12 +156,12 @@ public class TempData {
         return shows;
     }
 
-    public static List<Label> manyLabel(int id) {
-        List<Label> labels = new ArrayList<>();
+    public static List<AlbumActivityNode> manyLabel(int id) {
+        List<AlbumActivityNode> labels = new ArrayList<>();
 
         if (id == 0) {
             for (int i = 1; i < 5; i++) {
-                Label label = new Label();
+                AlbumActivityNode label = new AlbumActivityNode();
                 label.setName(armTypes[i]);
                 label.setHasChild(true);
                 label.setFatherNode(0);
@@ -174,7 +174,7 @@ public class TempData {
                 mid += arms[i].length;
             }
             for (int i = 0; i < arms[id].length; i++) {
-                Label label = new Label();
+                AlbumActivityNode label = new AlbumActivityNode();
                 label.setName(arms[id][i]);
                 label.setHasChild(false);
                 label.setFatherNode(id);

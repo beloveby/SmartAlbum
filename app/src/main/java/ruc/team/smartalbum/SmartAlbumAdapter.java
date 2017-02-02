@@ -35,41 +35,27 @@ public class SmartAlbumAdapter extends BaseAdapter {
 
     private OrganizeMode mode1;
     private ShowMode mode2;
-    private Label fatherNode;
+    private AlbumActivityNode fatherNode;
     private boolean isShowModeChanged;
 
     private int itemCount;
-    private List<Label> labelList;
+    private List<AlbumActivityNode> labelList;
     private List<Show> showList;
 
     private manyOnClickListener onClickListener;
 
-    public SmartAlbumAdapter(final Context context, TextView fatherNode) {
+    public SmartAlbumAdapter(final Context context, TextView fatherNode, manyOnClickListener.CallBack callBack) {
         this.context = context;
         fatherNodeView = fatherNode;
         itemCount = 0;
-        onClickListener = new manyOnClickListener(context);
+        onClickListener = new manyOnClickListener(context, callBack);
         isShowModeChanged = false;
     }
 
-    public void setData(OrganizeMode mode1, Label fatherNode) {
-        this.mode1 = mode1;
+    public void setData(AlbumActivityNode fatherNode) {
         this.fatherNode = fatherNode;
 
         this.updateData();
-    }
-
-    public void setData(OrganizeMode mode1, ShowMode mode2, Label fatherNode, int count, List<Show> shows, List<Label> labels) {
-        this.mode1 = mode1;
-        if (!mode2.equals(this.mode2)) {
-            this.isShowModeChanged = true;
-        }
-        this.mode2 = mode2;
-        this.fatherNode = fatherNode;
-
-        this.itemCount = count;
-        this.showList = shows;
-        this.labelList = labels;
     }
 
     @Override
@@ -79,7 +65,7 @@ public class SmartAlbumAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        Label Label = labelList.get(position);
+        AlbumActivityNode Label = labelList.get(position);
         Show show = showList.get(position);
 
         Map<String, Object> map = new HashMap<>();

@@ -2,8 +2,6 @@ package ruc.team.smartalbum;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by 边园 on 2017/1/30.
@@ -11,13 +9,19 @@ import android.widget.Toast;
 
 public class manyOnClickListener implements View.OnClickListener {
     private Context context;
-    private Label fatherNode;
+    private AlbumActivityNode fatherNode;
 
     private SmartAlbumAdapter smartAlbumAdapter;
+    private CallBack mCallBack;
+
+    public interface CallBack {
+        void trace(AlbumActivityNode albumActivityNode);
+    }
 
 
-    public manyOnClickListener(Context context) {
+    public manyOnClickListener(Context context, CallBack callBack) {
         this.context = context;
+        this.mCallBack = callBack;
     }
 
     @Override
@@ -28,15 +32,17 @@ public class manyOnClickListener implements View.OnClickListener {
         this.fatherNode.setHasChild(TempData.setHasChild(this.fatherNode.getId()));
         this.fatherNode.setName(TempData.setName(this.fatherNode.getId()));
 
-        this.smartAlbumAdapter.setData(SmartAlbumAdapter.OrganizeMode.LABEL, fatherNode);
+        this.smartAlbumAdapter.setData(fatherNode);
         this.smartAlbumAdapter.notifyDataSetChanged();
+
+        this.mCallBack.trace(this.fatherNode);
     }
 
-    public Label getFatherNode() {
+    public AlbumActivityNode getFatherNode() {
         return fatherNode;
     }
 
-    public void setFatherNode(Label fatherNode) {
+    public void setFatherNode(AlbumActivityNode fatherNode) {
         this.fatherNode = fatherNode;
     }
 
