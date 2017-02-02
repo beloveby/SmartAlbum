@@ -164,7 +164,7 @@ public class TempData {
                 Label label = new Label();
                 label.setName(armTypes[i]);
                 label.setHasChild(true);
-                label.setFahterNode(0);
+                label.setFatherNode(0);
                 label.setId(i);
                 labels.add(label);
             }
@@ -177,7 +177,7 @@ public class TempData {
                 Label label = new Label();
                 label.setName(arms[id][i]);
                 label.setHasChild(false);
-                label.setFahterNode(id);
+                label.setFatherNode(id);
                 label.setId(mid);
                 mid++;
                 labels.add(label);

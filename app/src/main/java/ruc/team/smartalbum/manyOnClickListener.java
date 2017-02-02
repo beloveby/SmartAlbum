@@ -23,7 +23,7 @@ public class manyOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int clickId = TempData.getChildId(fatherNode.getId(), (Integer) v.getTag());
-        this.fatherNode.setFahterNode(this.fatherNode.getId());
+        this.fatherNode.setFatherNode(this.fatherNode.getId());
         this.fatherNode.setId(clickId);
         this.fatherNode.setHasChild(TempData.setHasChild(this.fatherNode.getId()));
         this.fatherNode.setName(TempData.setName(this.fatherNode.getId()));

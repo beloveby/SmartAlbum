@@ -4,17 +4,17 @@ package ruc.team.smartalbum;
  * Created by 边园 on 2016/5/9.
  */
 public class Label {
-    private int fahterNode;
+    private int fatherNode;
     private int id;
     private String name;
     private boolean hasChild;
 
-    public int getFahterNode() {
-        return fahterNode;
+    public int getFatherNode() {
+        return fatherNode;
     }
 
-    public void setFahterNode(int fahterNode) {
-        this.fahterNode = fahterNode;
+    public void setFatherNode(int fatherNode) {
+        this.fatherNode = fatherNode;
     }
 
     public int getId() {
