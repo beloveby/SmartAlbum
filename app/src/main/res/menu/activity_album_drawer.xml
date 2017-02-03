@@ -7,17 +7,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Import" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_label"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Label" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_file"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="File" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_time"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Time" />
     </group>
 
     <item android:title="Communicate">

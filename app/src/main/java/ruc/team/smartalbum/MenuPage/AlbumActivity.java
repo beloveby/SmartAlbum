@@ -1,6 +1,9 @@
 package ruc.team.smartalbum.MenuPage;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,9 +19,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import ruc.team.smartalbum.ImageDisplayPage.ImageDisplayActivity;
 import ruc.team.smartalbum.R;
 import ruc.team.smartalbum.TempData;
 
@@ -30,6 +38,9 @@ public class AlbumActivity extends AppCompatActivity
     private ListView listView;
     private TextView textView;
     private SmartAlbumAdapter smartAlbumAdapter;
+
+    private Uri imageUri;
+    private static final int CAMERA = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,11 +147,33 @@ public class AlbumActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date(System.currentTimeMillis());
+            String filename = format.format(date);
+            //创建File对象用于存储拍照的图片 SD卡根目录
+            //File outputImage = new File(Environment.getExternalStorageDirectory(),test.jpg);
+            //存储至DCIM文件夹
+            //File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);File storageDir = this.getExternalFilesDir(null);
+            File path = this.getExternalFilesDir(null);
+            File outputImage = new File(path, filename + ".jpg");
+            try {
+                if (outputImage.exists()) {
+                    outputImage.delete();
+                }
+                outputImage.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //将File对象转换为Uri并启动照相程序
+            this.imageUri = Uri.fromFile(outputImage);
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE"); //照相
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, this.imageUri); //指定图片输出地址
+            startActivityForResult(intent, this.CAMERA);
+        } else if (id == R.id.nav_label) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_file) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_time) {
 
         } else if (id == R.id.nav_share) {
 
@@ -158,8 +191,28 @@ public class AlbumActivity extends AppCompatActivity
         this.smartAlbumAdapter.notifyDataSetChanged();
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CAMERA:
+                if (resultCode == RESULT_OK) {
+                    String picture = this.imageUri.toString();
+                    Intent intent = new Intent(this.getApplicationContext(), ImageDisplayActivity.class);
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putInt("from", ImageDisplayActivity.CAMERA);
+                    bundle.putString("uri", picture);
+                    intent.putExtras(bundle);
+                    this.startActivity(intent);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
-    public void trace(AlbumActivityNode albumActivityNode){
+    public void trace(AlbumActivityNode albumActivityNode) {
         AlbumActivityNode historyPiece = new AlbumActivityNode();
         historyPiece.copy(albumActivityNode);
         this.historyLog.add(historyPiece);

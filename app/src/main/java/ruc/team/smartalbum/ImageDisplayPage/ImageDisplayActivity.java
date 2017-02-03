@@ -5,16 +5,28 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelUuid;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import ruc.team.smartalbum.ImageProcess;
 import ruc.team.smartalbum.R;
+import ruc.team.smartalbum.Util.ImageProcessUtil;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -38,6 +50,9 @@ public class ImageDisplayActivity extends AppCompatActivity {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
+    public static final int CAMERA = 1;
+    public static final int MENU = 2;
+
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -96,7 +111,7 @@ public class ImageDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = this.getIntent().getExtras();
-        String drawable = bundle.getString("drawable");
+        int from = bundle.getInt("from");
 
         setContentView(R.layout.activity_image_display);
 
@@ -114,7 +129,31 @@ public class ImageDisplayActivity extends AppCompatActivity {
         });
 
         ImageView imageView = (ImageView) findViewById(R.id.image_display);
-        imageView.setImageDrawable(this.byteToDrawable(drawable));
+        switch(from){
+            case CAMERA:
+                String stringUri = bundle.getString("uri");
+                Toast.makeText(this, stringUri, Toast.LENGTH_SHORT).show();
+                ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                        .writeDebugLogs()
+                        .build();
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .showImageOnLoading(R.drawable.ic_stub)
+                        .showImageOnFail(R.drawable.ic_error)
+                        .cacheInMemory(true)
+                        .cacheOnDisk(true)
+                        .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)//设置图片以如何的编码方式显示
+                        .bitmapConfig(Bitmap.Config.RGB_565)
+                        .build();
+                ImageLoader.getInstance().init(configuration);
+                ImageLoader.getInstance().displayImage(stringUri, imageView, options);
+                break;
+            case MENU:
+                String drawable = bundle.getString("drawable");
+                imageView.setImageDrawable(ImageProcessUtil.byteToDrawable(drawable));
+                break;
+            default: break;
+        }
+
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
@@ -174,22 +213,4 @@ public class ImageDisplayActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
-
-    public synchronized Drawable byteToDrawable(String icon) {
-
-        byte[] img = Base64.decode(icon.getBytes(), Base64.DEFAULT);
-        Bitmap bitmap;
-        if (img != null) {
-
-
-            bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
-            @SuppressWarnings("deprecation")
-            Drawable drawable = new BitmapDrawable(bitmap);
-
-            return drawable;
-        }
-        return null;
-
-    }
-
 }

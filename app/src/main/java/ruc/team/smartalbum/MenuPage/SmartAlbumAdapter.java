@@ -47,12 +47,27 @@ public class SmartAlbumAdapter extends BaseAdapter {
 
     private manyOnClickListener onClickListener;
 
+    private DisplayImageOptions options;
+    private ImageLoader imageLoader;
+
     public SmartAlbumAdapter(final Context context, TextView fatherNode, manyOnClickListener.CallBack callBack) {
         this.context = context;
         fatherNodeView = fatherNode;
         itemCount = 0;
         onClickListener = new manyOnClickListener(context, callBack);
         isShowModeChanged = false;
+
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+                .createDefault(context);
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_stub)
+                .showImageOnFail(R.drawable.ic_error)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        ImageLoader.getInstance().init(configuration);
+        imageLoader = ImageLoader.getInstance();
     }
 
     public void setData(AlbumActivityNode fatherNode) {
@@ -85,18 +100,6 @@ public class SmartAlbumAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
-                .createDefault(context);
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_stub)
-                .showImageOnFail(R.drawable.ic_error)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-        ImageLoader.getInstance().init(configuration);
-        ImageLoader imageLoader = ImageLoader.getInstance();
-
         if (itemCount == 0)
             return null;
         else if (this.mode2.equals(ShowMode.ONE)) {

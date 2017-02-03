@@ -18,25 +18,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MenuPage.AlbumActivity"
             android:label="@string/title_activity_album"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <uses-permission android:name="android.permission.INTERNET" />
-        <!-- Include next permission if you want to allow UIL to cache images on SD card -->
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-        <service
-            android:name=".ImageProcess"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity
             android:name=".ImageDisplayPage.ImageDisplayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_image_display"
             android:theme="@style/FullscreenTheme"></activity>
+
+        <service
+            android:name=".ImageProcess"
+            android:enabled="true"
+            android:exported="true" />
+
+        <uses-permission android:name="android.permission.INTERNET" />
+        <!-- Include next permission if you want to allow UIL to cache images on SD card -->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+        <uses-permission android:name="android.permission.CAMERA"/>
+        <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+        <uses-feature android:name="android.hardware.camera" />
+        <uses-feature android:name="android.hardware.camera.autofocus" />
     </application>
 
 </manifest>
