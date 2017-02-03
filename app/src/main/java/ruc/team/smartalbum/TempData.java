@@ -3,6 +3,9 @@ package ruc.team.smartalbum;
 import java.util.ArrayList;
 import java.util.List;
 
+import ruc.team.smartalbum.MenuPage.AlbumActivityNode;
+import ruc.team.smartalbum.MenuPage.Show;
+
 /**
  * Created by 边园 on 2016/5/9.
  */

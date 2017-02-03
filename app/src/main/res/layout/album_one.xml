@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ruc.team.smartalbum.mGridView
+    <ruc.team.smartalbum.Util.mGridView
         android:id="@+id/album_one_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="5">
-    </ruc.team.smartalbum.mGridView>
+    </ruc.team.smartalbum.Util.mGridView>
 
 </LinearLayout>

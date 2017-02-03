@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.MenuPage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,6 +17,9 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ruc.team.smartalbum.R;
+import ruc.team.smartalbum.TempData;
 
 /**
  * Created by 边园 on 2016/5/9.

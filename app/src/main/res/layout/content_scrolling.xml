@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ruc.team.smartalbum.ScrollingActivity"
+    tools:context="ruc.team.smartalbum.StartPage.ScrollingActivity"
     tools:showIn="@layout/activity_scrolling">
 
-    <ruc.team.smartalbum.ExpandableListViewFeatScrollView
+    <ruc.team.smartalbum.StartPage.ExpandableListViewFeatScrollView
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000">
 
-    </ruc.team.smartalbum.ExpandableListViewFeatScrollView>
+    </ruc.team.smartalbum.StartPage.ExpandableListViewFeatScrollView>
 
 
 </android.support.v4.widget.NestedScrollView>

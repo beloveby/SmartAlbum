@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.MenuPage;
 
 import java.util.List;
 

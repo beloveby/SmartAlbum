@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".AlbumActivity"
+    tools:context=".MenuPage.AlbumActivity"
     tools:showIn="@layout/app_bar_album">
 
     <TextView
@@ -34,12 +34,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ruc.team.smartalbum.mListView
+                <ruc.team.smartalbum.Util.mListView
                     android:id="@+id/smart_album"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </ruc.team.smartalbum.mListView>
+                </ruc.team.smartalbum.Util.mListView>
 
             </LinearLayout>
 

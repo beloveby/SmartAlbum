@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.StartPage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.widget.AbsListView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import ruc.team.smartalbum.MenuPage.AlbumActivity;
+import ruc.team.smartalbum.R;
+import ruc.team.smartalbum.Util.OnClickListenerWithParam;
 
 /**
  * Created by 边园 on 2016/5/7.

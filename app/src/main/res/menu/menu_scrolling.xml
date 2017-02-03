@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ruc.team.smartalbum.ScrollingActivity">
+    tools:context="ruc.team.smartalbum.StartPage.ScrollingActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

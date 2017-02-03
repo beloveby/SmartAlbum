@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.Util;
 
 import android.content.Context;
 import android.util.AttributeSet;

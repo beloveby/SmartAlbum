@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.MenuPage;
 
 /**
  * Created by 边园 on 2016/5/9.

@@ -32,7 +32,7 @@ public class ImageProcess extends Service {
     }
 
     public class ImageProcessBinder extends Binder {
-        ImageProcess getService() {
+        public ImageProcess getService() {
             // Return this instance of LocalService so clients can call public methods
             return ImageProcess.this;
         }

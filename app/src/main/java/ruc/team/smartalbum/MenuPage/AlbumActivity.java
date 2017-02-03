@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.MenuPage;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ruc.team.smartalbum.R;
+import ruc.team.smartalbum.TempData;
 
 public class AlbumActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, manyOnClickListener.CallBack {

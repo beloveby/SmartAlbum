@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.StartPage;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

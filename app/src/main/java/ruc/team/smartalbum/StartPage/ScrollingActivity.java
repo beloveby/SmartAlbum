@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.StartPage;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,6 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+
+import ruc.team.smartalbum.MenuPage.AlbumActivity;
+import ruc.team.smartalbum.ImageProcess;
+import ruc.team.smartalbum.R;
+import ruc.team.smartalbum.TempData;
 
 public class ScrollingActivity extends AppCompatActivity {
 

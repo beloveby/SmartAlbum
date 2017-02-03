@@ -1,7 +1,6 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.MenuPage;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,8 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import ruc.team.smartalbum.R;
 
 /**
  * Created by 边园 on 2016/5/9.
