@@ -15,13 +15,17 @@ public class SmartAlbumDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS image" +
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, identification VARCHAR, update_time TIMESTAMP)");
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, path VARCHAR, feature TEXT, status VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS tab" +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, LogisticArg TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS category" +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS image_tab" +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT, image_id INTEGER, tab_id INTEGER)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS state" +
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, state INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tab_category" +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, tab_id VARCHAR, category_id INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS system_info" +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, info INTEGER)");
     }
 
     @Override

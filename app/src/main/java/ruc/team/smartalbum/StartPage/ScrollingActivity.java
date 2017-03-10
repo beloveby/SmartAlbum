@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import ruc.team.smartalbum.MenuPage.AlbumActivity;
-import ruc.team.smartalbum.ImageProcess;
+import ruc.team.smartalbum.ImageProcess.ImageProcessService;
 import ruc.team.smartalbum.R;
 import ruc.team.smartalbum.TempData;
 
@@ -111,7 +111,7 @@ public class ScrollingActivity extends AppCompatActivity {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 Log.d(TAG, "service connected");
-                ImageProcess imageProcess = ((ImageProcess.ImageProcessBinder) service).getService();
+                ImageProcessService imageProcess = ((ImageProcessService.ImageProcessBinder) service).getService();
                 imageProcess.fortest();
             }
 
@@ -121,7 +121,7 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         };
 
-        Intent service = new Intent(this.getApplicationContext(), ImageProcess.class);
+        Intent service = new Intent(this.getApplicationContext(), ImageProcessService.class);
         this.bindService(service, this.serviceConnection, Context.BIND_AUTO_CREATE);
 
     }

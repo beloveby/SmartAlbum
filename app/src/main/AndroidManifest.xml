@@ -31,7 +31,7 @@
             android:theme="@style/FullscreenTheme"></activity>
 
         <service
-            android:name=".ImageProcess"
+            android:name=".ImageProcess.ImageProcessService"
             android:enabled="true"
             android:exported="true" />
 

@@ -6,6 +6,15 @@ package ruc.team.smartalbum.Database;
 public class Tab {
     private int tabId;
     private String tabName;
+    private String LogisticArg;
+
+    public String getLogisticArg() {
+        return LogisticArg;
+    }
+
+    public void setLogisticArg(String logisticArg) {
+        LogisticArg = logisticArg;
+    }
 
     public int getTabId() {
         return tabId;
