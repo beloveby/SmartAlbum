@@ -1,4 +1,4 @@
-package ruc.team.smartalbum;
+package ruc.team.smartalbum.ImageProcess;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ImageProcess extends Service {
+public class ImageProcessService extends Service {
 
-    public ImageProcess() {
+    public ImageProcessService() {
         Log.v("SERVICE_TEST", "this is service");
     }
 
@@ -32,9 +32,9 @@ public class ImageProcess extends Service {
     }
 
     public class ImageProcessBinder extends Binder {
-        public ImageProcess getService() {
+        public ImageProcessService getService() {
             // Return this instance of LocalService so clients can call public methods
-            return ImageProcess.this;
+            return ImageProcessService.this;
         }
     }
 }
